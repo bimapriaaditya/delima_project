@@ -2,28 +2,32 @@ import React from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 
+const breadcrumb = [
+  { name: "Project", href: route('dashboard') },
+  { name: "List" }
+]
+
 const List = ({auth, data}) => {
+
   return (
-    <AuthenticatedLayout
-      user={auth.user}
-      header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Project</h2>}
-    >
-      <div className="py-12">
-          <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-              <div className="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                Lorem Ipsum dolor
-              </div>
+    <>
+    <div className="py-12">
+      <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
+          <div className="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+            Lorem Ipsum dolor
           </div>
       </div>
-    </AuthenticatedLayout>
+    </div>
+    </>
   );
 }
 
 List.layout = page => (
   <AuthenticatedLayout
     user={page.props.auth.user}
-    header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Project</h2>}>
+    header={breadcrumb}>
       <Head title="Project List" />
+      { page }
   </AuthenticatedLayout>
 )
 

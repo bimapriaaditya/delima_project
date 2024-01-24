@@ -8,7 +8,7 @@ import { Link } from '@inertiajs/react';
 export default function Authenticated({ user, header, children }) {
   const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
 
-  console.log({ user, header, children })
+  console.log(header)
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -29,7 +29,7 @@ export default function Authenticated({ user, header, children }) {
                 </NavLink>
               </div>
               <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                <NavLink href="/projects">
+                <NavLink href={route('projects.index')} active={route().current('projects.index')}>
                   Projects
                 </NavLink>
               </div>
@@ -97,33 +97,59 @@ export default function Authenticated({ user, header, children }) {
             </div>
           </div>
         </div>
-
-        <div className={(showingNavigationDropdown ? 'block' : 'hidden') + ' sm:hidden'}>
-          <div className="pt-2 pb-3 space-y-1">
-            <ResponsiveNavLink href={route('dashboard')} active={route().current('dashboard')}>
-              Dashboard
-            </ResponsiveNavLink>
-          </div>
-
-          <div className="pt-4 pb-1 border-t border-gray-200">
-            <div className="px-4">
-              <div className="font-medium text-base text-gray-800">{user.name}</div>
-              <div className="font-medium text-sm text-gray-500">{user.email}</div>
-            </div>
-
-            <div className="mt-3 space-y-1">
-              <ResponsiveNavLink href={route('profile.edit')}>Profile</ResponsiveNavLink>
-              <ResponsiveNavLink method="post" href={route('logout')} as="button">
-                Log Out
+        {/*
+          <div className={(showingNavigationDropdown ? 'block' : 'hidden') + ' sm:hidden'}>
+            <div className="pt-2 pb-3 space-y-1">
+              <ResponsiveNavLink href={route('dashboard')} active={route().current('dashboard')}>
+                Dashboard
               </ResponsiveNavLink>
             </div>
+
+            <div className="pt-4 pb-1 border-t border-gray-200">
+              <div className="px-4">
+                <div className="font-medium text-base text-gray-800">{user.name}</div>
+                <div className="font-medium text-sm text-gray-500">{user.email}</div>
+              </div>
+
+              <div className="mt-3 space-y-1">
+                <ResponsiveNavLink href={route('profile.edit')}>Profile</ResponsiveNavLink>
+                <ResponsiveNavLink method="post" href={route('logout')} as="button">
+                  Log Out
+                </ResponsiveNavLink>
+              </div>
+            </div>
           </div>
-        </div>
+        */}
       </nav>
 
       {header && (
         <header className="bg-white shadow">
-          <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">{header}</div>
+          <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            <ul>
+              {
+                header.map((item, index) => (
+                  <li key={index}>
+                    <Link href={ item.href || "#" }>
+                      {
+                        index == 0
+                          ? (<h1 className='font-bold text-2xl'>{item.name}</h1>)
+                          : (<span className='italic'>{item.name}</span>)
+                      }
+                    </Link>
+                  </li>
+                ))
+              }
+            </ul>
+            {/* <ul className='flex space-x-2'>
+              <li>
+                <h2 className="font-semibold text-xl text-gray-800 leading-tight">Project</h2>
+              </li>
+              <li>
+                <span className='font-thin opacity-50'>/ List</span>
+              </li>
+            </ul> */}
+            {/* {header} */}
+          </div>
         </header>
       )}
 
