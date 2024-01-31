@@ -1,9 +1,9 @@
-import React from 'react';
+import {React, useState} from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link } from '@inertiajs/react';
 import ProjectCard from '@/Components/Cards/Variant/ProjectCard';
 import { BtnFill, BtnOutline, BtnText, Button } from '@/Components/Buttons/index';
-import { CiSliderHorizontal, CiSearch } from "react-icons/ci";
+import ModalCreate from './ModalCreate';
 
 
 const breadcrumb = [
@@ -48,12 +48,17 @@ const DataList = [
 ]
 
 const actionHeader = () => {
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(!open);
+
   return (
-    <div className='flex gap-3 items-center'>
-      <Link href='#'>
-        <Button>Create New Project +</Button>
-      </Link>
-    </div>
+    <>
+      <div className='flex gap-3 items-center'>
+        <Button onClick={handleOpen}>Create New Project +</Button>
+      </div>
+
+      <ModalCreate isOpen={open} handleOpen={handleOpen} />
+    </>
   )
 }
 
@@ -63,10 +68,10 @@ const List = ({ auth, data }) => {
     <>
     <section className="spacer">
       <div className="flex items-center gap-4 py-3 border-b">
-          <Button>Button Here</Button>
-          <BtnFill>All</BtnFill>
-          <BtnOutline>Opened</BtnOutline>
-          <BtnText>Archived</BtnText>
+        <Button>Button Here</Button>
+        <BtnFill>All</BtnFill>
+        <BtnOutline>Opened</BtnOutline>
+        <BtnText>Archived</BtnText>
       </div>
       <div className='grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4'>
         {
