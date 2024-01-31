@@ -1,7 +1,8 @@
 import React from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
-import ProjectCard from '@/Components/Card/Variant/ProjectCard';
+import ProjectCard from '@/Components/Cards/Variant/ProjectCard';
+import { BtnFill, BtnOutline, BtnText } from '@/Components/Buttons/index';
 
 const breadcrumb = [
   { name: "Project", href: route('dashboard') },
@@ -49,13 +50,18 @@ const List = ({ auth, data }) => {
   return (
     <>
     <section className="spacer">
+      <div className="flex items-center gap-4 py-3 border-b">
+          <BtnFill>All</BtnFill>
+          <BtnOutline>Opened</BtnOutline>
+          <BtnText>Archived</BtnText>
+      </div>
       <div className='grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4'>
         {
           DataList?.map((item, index) => (
             <ProjectCard key={index} {...item} />
           ))
         }
-      </div>
+        </div>
     </section>
     </>
   );

@@ -1,5 +1,5 @@
 import React from 'react';
-import Card from '@/Components/Card/Index';
+import Card from '@/Components/Cards/Index';
 import ImageStack from '@/Components/ImageStack';
 import UserThumb from '@/Components/UserThumb';
 import { Link } from '@inertiajs/react';

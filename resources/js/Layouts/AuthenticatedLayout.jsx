@@ -123,30 +123,24 @@ export default function Authenticated({ user, header, children }) {
       {header && (
         <header className="bg-white shadow">
           <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-            <ul>
-              {
-                header.map((item, index) => (
-                  <li key={index}>
-                    <Link href={ item.href || "#" }>
-                      {
-                        index == 0
-                          ? (<h1 className='font-bold text-2xl'>{item.name}</h1>)
-                          : (<span className='italic'>{item.name}</span>)
-                      }
-                    </Link>
-                  </li>
-                ))
-              }
-            </ul>
-            {/* <ul className='flex space-x-2'>
-              <li>
-                <h2 className="font-semibold text-xl text-gray-800 leading-tight">Project</h2>
-              </li>
-              <li>
-                <span className='font-thin opacity-50'>/ List</span>
-              </li>
-            </ul> */}
-            {/* {header} */}
+            <div className='flex gap-4 flex-wrap'>
+              <ul className='flex-grow'>
+                {
+                  header.map((item, index) => (
+                    <li key={index}>
+                      <Link href={ item.href || "#" }>
+                        {
+                          index == 0
+                            ? (<h1 className='font-bold text-2xl'>{item.name}</h1>)
+                            : (<span className='italic'>{item.name}</span>)
+                        }
+                      </Link>
+                    </li>
+                  ))
+                }
+              </ul>
+              <div>Lorem Ipsum</div>
+            </div>
           </div>
         </header>
       )}
