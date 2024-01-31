@@ -1,8 +1,10 @@
 import React from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head } from '@inertiajs/react';
+import { Head, Link } from '@inertiajs/react';
 import ProjectCard from '@/Components/Cards/Variant/ProjectCard';
 import { BtnFill, BtnOutline, BtnText, Button } from '@/Components/Buttons/index';
+import { CiSliderHorizontal, CiSearch } from "react-icons/ci";
+
 
 const breadcrumb = [
   { name: "Project", href: route('dashboard') },
@@ -45,6 +47,16 @@ const DataList = [
   }
 ]
 
+const actionHeader = () => {
+  return (
+    <div className='flex gap-3 items-center'>
+      <Link href='#'>
+        <Button>Create New Project +</Button>
+      </Link>
+    </div>
+  )
+}
+
 const List = ({ auth, data }) => {
 
   return (
@@ -71,7 +83,8 @@ const List = ({ auth, data }) => {
 List.layout = page => (
   <AuthenticatedLayout
     user={page.props.auth.user}
-    header={breadcrumb}>
+    header={breadcrumb}
+    actionHeader={actionHeader}>
     <Head title="Project List" />
     {page}
   </AuthenticatedLayout>

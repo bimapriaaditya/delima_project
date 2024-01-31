@@ -4,8 +4,9 @@ import Dropdown from '@/Components/Dropdown';
 import NavLink from '@/Components/NavLink';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
 import { Link } from '@inertiajs/react';
+import { Button } from '@/Components/Buttons';
 
-export default function Authenticated({ user, header, children }) {
+export default function Authenticated({ user, header, children, actionHeader }) {
   const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
 
   return (
@@ -120,30 +121,36 @@ export default function Authenticated({ user, header, children }) {
         */}
       </nav>
 
-      {header && (
-        <header className="bg-white shadow">
-          <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-            <div className='flex gap-4 flex-wrap'>
-              <ul className='flex-grow'>
-                {
-                  header.map((item, index) => (
-                    <li key={index}>
-                      <Link href={ item.href || "#" }>
-                        {
-                          index == 0
-                            ? (<h1 className='font-bold text-2xl'>{item.name}</h1>)
-                            : (<span className='italic'>{item.name}</span>)
-                        }
-                      </Link>
-                    </li>
-                  ))
-                }
-              </ul>
-              <div>Lorem Ipsum</div>
+      {
+        header && (
+          <header className="bg-white shadow">
+            <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+              <div className='flex gap-4 flex-wrap'>
+                <ul className='flex-grow'>
+                  {
+                    header.map((item, index) => (
+                      <li key={index}>
+                        <Link href={ item.href || "#" }>
+                          {
+                            index == 0
+                              ? (<h1 className='font-bold text-2xl'>{item.name}</h1>)
+                              : (<span className='italic'>{item.name}</span>)
+                          }
+                        </Link>
+                      </li>
+                    ))
+                  }
+                </ul>
+                <div>
+                  {
+                    actionHeader && actionHeader()
+                  }
+                </div>
+              </div>
             </div>
-          </div>
-        </header>
-      )}
+          </header>
+        )
+      }
 
       <main>{children}</main>
     </div>
