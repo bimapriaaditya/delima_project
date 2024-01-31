@@ -2,7 +2,7 @@ import React from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 import ProjectCard from '@/Components/Cards/Variant/ProjectCard';
-import { BtnFill, BtnOutline, BtnText } from '@/Components/Buttons/index';
+import { BtnFill, BtnOutline, BtnText, Button } from '@/Components/Buttons/index';
 
 const breadcrumb = [
   { name: "Project", href: route('dashboard') },
@@ -51,6 +51,7 @@ const List = ({ auth, data }) => {
     <>
     <section className="spacer">
       <div className="flex items-center gap-4 py-3 border-b">
+          <Button>Button Here</Button>
           <BtnFill>All</BtnFill>
           <BtnOutline>Opened</BtnOutline>
           <BtnText>Archived</BtnText>
