@@ -2,26 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Projects;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
-use Inertia\Response;
 
-class ProjectController extends Controller
+class ProjectPostController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request): Response
+    public function index()
     {
-        return Inertia::render('Projects/List', [
-            'data' => Projects::all()->map(function ($project) {
-                return [
-                    'id'=> $project->id,
-                    'name'=> $project->name,
-                ];
-            }),
+        return Inertia::render('Projects/Posts/List', [
+            "active_nav" => "side-post",
+            "data" => "bima"
         ]);
     }
 
@@ -46,10 +39,7 @@ class ProjectController extends Controller
      */
     public function show(string $id)
     {
-        return Inertia::render('Projects/Detail', [
-            "active_nav" => "side-dashborad",
-            'data'=> Projects::find($id),
-        ]);
+        //
     }
 
     /**

@@ -4,11 +4,10 @@ import {
   Typography,
   List,
   ListItem,
-  ListItemPrefix,
   ListItemSuffix,
   Chip,
 } from "@material-tailwind/react";
-import { CiUser, CiShoppingTag } from "react-icons/ci";
+import { Link } from '@inertiajs/react';
 
 const Sidenav = (props) => {
   const { data, title } = props;
@@ -23,24 +22,26 @@ const Sidenav = (props) => {
       <List className='px-0'>
         {
           data?.map((item, index) => (
-            <ListItem key={index}>
-              <p className='flex-grow'>{item.name}</p>
-              {
-                (item.type == "chip")
-                ? <ListItemSuffix>
-                    <Chip value={item.value} size="sm" variant="ghost" color="blue-gray" className="rounded-full" />
-                  </ListItemSuffix>
-                : (item.type == "label") ?
-                  <div className='flex p-2 gap-1'>
-                    {
-                      (item.icon) && item.icon
-                    }
-                    <span className='text-xs'>{item.value}</span>
-                  </div>
-                : <span>&nbsp;</span>
-              }
+            <Link key={index} href={item.url || '#'}>
+              <ListItem className={item.isActive ? '!bg-indigo-50 !text-indigo-500 !font-semibold' : ''}>
 
-            </ListItem>
+                <p className='flex-grow'>{item.name}</p>
+                {
+                  (item.type == "chip")
+                  ? <ListItemSuffix>
+                      <Chip value={item.value} size="sm" variant="ghost" color="blue-gray" className="rounded-full" />
+                    </ListItemSuffix>
+                  : (item.type == "label") ?
+                    <div className='flex p-2 gap-1'>
+                      {
+                        (item.icon) && item.icon
+                      }
+                      <span className='text-xs'>{item.value}</span>
+                    </div>
+                  : <span>&nbsp;</span>
+                }
+              </ListItem>
+            </Link>
           ))
         }
       </List>
