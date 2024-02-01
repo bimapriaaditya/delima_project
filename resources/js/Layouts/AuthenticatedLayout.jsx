@@ -6,7 +6,7 @@ import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
 import { Link } from '@inertiajs/react';
 import { Button } from '@/Components/Buttons';
 
-export default function Authenticated({ user, header, children, actionHeader }) {
+const Authenticated = ({ user, header, children, BreadAction }) => {
   const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
 
   return (
@@ -143,7 +143,7 @@ export default function Authenticated({ user, header, children, actionHeader }) 
                 </ul>
                 <div>
                   {
-                    actionHeader && actionHeader()
+                    BreadAction && <BreadAction />
                   }
                 </div>
               </div>
@@ -156,3 +156,6 @@ export default function Authenticated({ user, header, children, actionHeader }) 
     </div>
   );
 }
+
+
+export default Authenticated;

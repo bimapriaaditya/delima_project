@@ -47,7 +47,7 @@ const DataList = [
   }
 ]
 
-const actionHeader = () => {
+const ActionHeader = () => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(!open);
 
@@ -88,8 +88,9 @@ const List = ({ auth, data }) => {
 List.layout = page => (
   <AuthenticatedLayout
     user={page.props.auth.user}
-    header={breadcrumb}
-    actionHeader={actionHeader}>
+    BreadAction={ActionHeader}
+    header={breadcrumb}>
+
     <Head title="Project List" />
     {page}
   </AuthenticatedLayout>
