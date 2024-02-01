@@ -46,7 +46,9 @@ class ProjectController extends Controller
      */
     public function show(string $id)
     {
-        //
+        return Inertia::render('Projects/Detail', [
+            'data'=> Projects::find($id),
+        ]);
     }
 
     /**

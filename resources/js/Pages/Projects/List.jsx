@@ -7,7 +7,7 @@ import ModalCreate from './ModalCreate';
 
 
 const breadcrumb = [
-  { name: "Project", href: route('dashboard') },
+  { name: "Project", href: route('projects.index') },
   { name: "List" }
 ]
 
@@ -15,7 +15,7 @@ const DataList = [
   {
     title: "Agus Lembur bu?",
     caption: "Lorem ipsum dolor sit amet consectetur adipisicing elit. A ad impedit nam recusandae aperiam laborum, molestias saepe quo similique numquam hic architecto repudiandae! Vitae repellat eum voluptatem similique maxime accusamus.",
-    link: "#",
+    link: route('projects.show', [1]),
     thumbnail: "https://images.unsplash.com/photo-1619795816735-0b7c5a06ac4c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDZ8fHxlbnwwfHx8fHw%3D",
     createdBy: {
       name: "Bima Pria",
@@ -32,7 +32,7 @@ const DataList = [
   {
     title: "Enggak gus kamu tidur aja deh",
     caption: "Lorem ipsum dolor sit amet consectetur adipisicing elit. A ad impedit nam recusandae aperiam laborum, molestias saepe quo similique numquam hic architecto repudiandae! Vitae repellat eum voluptatem similique maxime accusamus.",
-    link: "#",
+    link: route('projects.show', [2]),
     thumbnail: "https://images.unsplash.com/photo-1619441207978-3d326c46e2c9?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     createdBy: {
       name: "Agus Winarto",
@@ -63,7 +63,6 @@ const ActionHeader = () => {
 }
 
 const List = ({ auth, data }) => {
-
   return (
     <>
     <section className="spacer">
@@ -89,8 +88,9 @@ List.layout = page => (
   <AuthenticatedLayout
     user={page.props.auth.user}
     BreadAction={ActionHeader}
-    header={breadcrumb}>
-
+    header={breadcrumb}
+    activeMenu={'project'}
+  >
     <Head title="Project List" />
     {page}
   </AuthenticatedLayout>

@@ -6,7 +6,7 @@ import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
 import { Link } from '@inertiajs/react';
 import { Button } from '@/Components/Buttons';
 
-const Authenticated = ({ user, header, children, BreadAction }) => {
+const Authenticated = ({ user, header, children, BreadAction, activeMenu }) => {
   const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
 
   return (
@@ -28,7 +28,7 @@ const Authenticated = ({ user, header, children, BreadAction }) => {
                 </NavLink>
               </div>
               <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                <NavLink href={route('projects.index')} active={route().current('projects.index')}>
+                <NavLink href={route('projects.index')} active={activeMenu == 'project' && 'active'}>
                   Projects
                 </NavLink>
               </div>
@@ -126,15 +126,15 @@ const Authenticated = ({ user, header, children, BreadAction }) => {
           <header className="bg-white shadow">
             <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
               <div className='flex gap-4 flex-wrap'>
-                <ul className='flex-grow'>
+                <ul className='flex-grow flex flex-wrap'>
                   {
                     header.map((item, index) => (
-                      <li key={index}>
+                      <li key={index} className={index == 0 ? 'w-full block': ''}>
                         <Link href={ item.href || "#" }>
                           {
                             index == 0
                               ? (<h1 className='font-bold text-2xl'>{item.name}</h1>)
-                              : (<span className='italic'>{item.name}</span>)
+                              : (<span className='italic'>{item.name} &nbsp; / &nbsp;</span>)
                           }
                         </Link>
                       </li>
