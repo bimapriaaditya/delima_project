@@ -12,8 +12,7 @@ import { Link } from '@inertiajs/react';
 const Sidenav = (props) => {
   const { data, title } = props;
   return (
-    <nav>
-      <Card className="w-full max-w-[20rem] p-4 shadow-xl shadow-blue-gray-900/5">
+    <nav className='border-r pe-6'>
       <div className="p-3 border-b">
         <Typography variant="h5" color="blue-gray">
           <p className='flex-grow'>{ title }</p>
@@ -45,7 +44,6 @@ const Sidenav = (props) => {
           ))
         }
       </List>
-    </Card>
     </nav>
   );
 }

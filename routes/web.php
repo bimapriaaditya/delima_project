@@ -6,6 +6,8 @@ use Inertia\Inertia;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ProjectPostController;
+use App\Http\Controllers\ProjectUsersController;
+use App\Http\Controllers\ProjectLabelsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,7 +39,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::resource('/projects', ProjectController::class);
-    Route::resource('/projects/{project}/post', ProjectPostController::class);
+    Route::resource('/projects/{project}/posts', ProjectPostController::class);
+    Route::resource('/projects/{project}/users', ProjectUsersController::class);
+    Route::resource('/projects/{project}/labels', ProjectLabelsController::class);
 });
 
 require __DIR__ . '/auth.php';

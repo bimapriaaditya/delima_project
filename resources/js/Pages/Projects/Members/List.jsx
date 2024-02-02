@@ -8,8 +8,8 @@ import ProjectLayout from '@/Layouts/ProjectLayout';
 
 const breadcrumb = [
   { name: "Spongebob Squarepants" },
-  { name: "Projects", href: route('projects.index') },
-  { name: "Posts", href: route('posts.index', [1]) }
+  { name: "Projects", href: route('projects.index', 1) },
+  { name: "Members", href: route('users.index', 1) }
 ]
 
 const ActionHeader = () => {
@@ -19,7 +19,7 @@ const ActionHeader = () => {
   return (
     <>
       <div className='flex gap-3 items-center'>
-        <Button onClick={handleOpen} variant='gradient' color='indigo'>Create new Post +</Button>
+        <Button onClick={handleOpen} variant='gradient' color='indigo'>Add Member +</Button>
       </div>
     </>
   )
@@ -29,11 +29,11 @@ const List = (props) => {
   const { children, data, active_nav } = props;
   return (
     <section>
-      <h3 className='text-3xl font-semibold'>Post</h3>
-      <p>Menampilkan daftar data konten seperti</p>
+      <h3 className='text-3xl font-semibold'>Members</h3>
+      <p>Menampilkan daftar User pada aplikasi ini</p>
       <ul className='list-decimal ps-6'>
-        <li className='p-2'>Filter Tabs (Recent, oldest, yourPost) | Search | Display</li>
-        <li className='p-2'>Post (Title, caption, thumbnail, createdBy, createAt, liked, commented)</li>
+        <li className='p-2'>Filter Tabs (All, Admin, User, Owner) | Search </li>
+        <li className='p-2'>List (Photo, Name, Email, Role, joinDate)</li>
         <li className='p-2'>Pagination or <span className='font-semibold'>Infinite scroll</span>?</li>
       </ul>
     </section>

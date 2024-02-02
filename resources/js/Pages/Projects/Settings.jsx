@@ -16,16 +16,16 @@ const Detail = (props) => {
 
   return (
     <section>
-      <h3 className='text-3xl font-semibold'>Dashboard Project</h3>
-      <p>Menampilkan daftar data konten seperti</p>
+      <h3 className='text-3xl font-semibold'>Settings Server</h3>
+      <p>Melakukan edit informasi project seperti :</p>
       <ul className='list-decimal ps-6'>
-        <li className='p-2'>Jumlah project (Opened / Closed)</li>
-        <li className='p-2'>Jumlah Issue (Opened / Closed)</li>
-        <li className='p-2'>Jumlah Peserta</li>
-        <li className='p-2'>Top Category</li>
-        <li className='p-2'>Top 3 Recent Issues</li>
-        <li className='p-2'>Top 3 Recent Post</li>
-        <li className='p-2'>This Server was created by</li>
+        <li className='p-2'>Nama Project</li>
+        <li className='p-2'>Caption</li>
+        <li className='p-2'>CreatedBy</li>
+        <li className='p-2'>Owner as Admin (Bool [true])</li>
+        <li className='p-2'>Is Public (Bool[true])</li>
+        <li className='p-2'>Only Admin can Invite (Bool[true])</li>
+        <li className='p-2'>Thumbnail Cover Image</li>
       </ul>
     </section>
   );

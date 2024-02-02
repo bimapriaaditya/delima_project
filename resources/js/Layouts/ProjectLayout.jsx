@@ -15,14 +15,14 @@ const ProjectLayout = (props) => {
       name: "Issues",
       type: "chip",
       value: "12",
-      url: "#",
+      url: route('posts.index', 1),
       isActive: (active_nav == 'side-issues')
     },
     {
       name: "Post",
       type: "chip",
       value: "25",
-      url: route('post.index', 1),
+      url: route('posts.index', 1),
       isActive: (active_nav == 'side-post')
     },
     {
@@ -30,21 +30,21 @@ const ProjectLayout = (props) => {
       type: "label",
       icon: <CiUser />,
       value: "2",
-      url: "#",
-      isActive: (active_nav == 'side-member')
+      url: route('users.index', 1),
+      isActive: (active_nav == 'side-members')
     },
     {
-      name: "Category",
+      name: "Label Category",
       type: "label",
       icon: <CiShoppingTag />,
       value: "5",
-      url: "#",
-      isActive: (active_nav == 'side-category')
+      url: route('labels.index', 1),
+      isActive: (active_nav == 'side-labels')
     },
     {
       name: "Settings",
-      url: "#",
-      isActive: (active_nav == 'side-setting')
+      url: route('projects.edit', 1),
+      isActive: (active_nav == 'side-settings')
     }
   ]
 
