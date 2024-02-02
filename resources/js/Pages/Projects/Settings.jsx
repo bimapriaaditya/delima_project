@@ -8,7 +8,7 @@ import ProjectLayout from '@/Layouts/ProjectLayout';
 const breadcrumb = [
   { name: "Spongebob Squarepants" },
   { name: "Projects", href: route('projects.index') },
-  { name: "Detail", href: route('projects.show', 1) }
+  { name: "Settings", href: route('projects.edit', 1) }
 ]
 
 const Detail = (props) => {

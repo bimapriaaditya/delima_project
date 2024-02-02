@@ -9,7 +9,7 @@ import ProjectLayout from '@/Layouts/ProjectLayout';
 const breadcrumb = [
   { name: "Spongebob Squarepants" },
   { name: "Projects", href: route('projects.index', 1) },
-  { name: "Members", href: route('users.index', 1) }
+  { name: "Labels", href: route('labels.index', 1) }
 ]
 
 const ActionHeader = () => {
