@@ -1,7 +1,9 @@
 import React from 'react';
-import Authenticated from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
-import Detail from '../Detail';
+
+// Layouts
+import Authenticated from '@/Layouts/AuthenticatedLayout';
+import ProjectLayout from '@/Layouts/ProjectLayout';
 
 const breadcrumb = [
   { name: "Spongebob Squarepants" },
@@ -24,11 +26,10 @@ List.layout = page => (
     header={breadcrumb}
     activeMenu={'project'}
   >
-    <Detail
-      active_nav={page.props.active_nav}
-    >
+    <Head title='Post | Spongebob Squarepants' />
+    <ProjectLayout active_nav={page.props.active_nav}>
       {page}
-    </Detail>
+    </ProjectLayout>
   </Authenticated>
 )
 
