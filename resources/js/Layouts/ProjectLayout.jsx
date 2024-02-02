@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Sidenav from '@/Components/Navigations/Sidenav';
 import { CiUser, CiShoppingTag } from "react-icons/ci";
 
 const ProjectLayout = (props) => {
   const { children, data, active_nav } = props;
-  const [time, setTime] = useState(0);
 
   const sidemenu = [
     {
@@ -49,15 +48,8 @@ const ProjectLayout = (props) => {
     }
   ]
 
-  useEffect(() => {
-    setInterval(() => {
-      setTime((time) => time + 1)
-    }, 1000)
-  }, [])
-
   return (
     <section className="spacer">
-      <h1>{time}</h1>
       <div className="flex gap-8">
         <Sidenav title="Menus" data={sidemenu} />
         <div className='flex-grow'>
