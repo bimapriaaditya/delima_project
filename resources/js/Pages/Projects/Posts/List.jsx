@@ -17,6 +17,8 @@ import {
   CiBoxList,
   CiGrid41
 } from 'react-icons/ci';
+import { BsSliders } from "react-icons/bs";
+import SearchPopup from '@/Components/Forms/SearchPopup';
 
 // Layouts
 import Authenticated from '@/Layouts/AuthenticatedLayout';
@@ -45,17 +47,14 @@ const ActionHeader = () => {
   )
 }
 
-const SearchBundle = (props) => {
-  const { children } = props;
-
-  return ("Halo KK KK");
-}
 
 const List = (props) => {
   const { children, data, active_nav } = props;
   const [softFilter, setSoftFilter] = useState('recent');
   const [display, setDisplay] = useState("List");
   const [openSearch, setOpenSearch] = useState(false);
+
+  const handleOpenSearch = () => setOpenSearch(!openSearch);
 
   return (
     <section>
@@ -99,23 +98,21 @@ const List = (props) => {
               My Post
             </Button>
           </div>
-          <div className='flex gap-2'>
+          <div className='flex'>
             <div>
-              <Tooltip content="Filter & Search Content" className="bg-gray-300 text-gray-700 shadow-sm border">
-                <IconButton variant="text" color='indigo'>
-                  <CiSearch className='text-xl' />
+              <Tooltip content="Search Content" className="bg-gray-300 text-gray-700 shadow-sm border">
+                <IconButton variant="text" color='indigo' onClick={() => setOpenSearch(!openSearch)}>
+                  <CiSearch className='text-lg' />
                 </IconButton>
               </Tooltip>
-              <div className='bg-white shadow-xl rounded-xl w-full p-3 absolute top-0 left-0 my-2'>
-                <div className='relative'>
-                  <CiSearch className='absolute top-1/2 start-4 -translate-y-1/2' />
-                  <input
-                    type="text"
-                    className='w-full border-gray-200 rounded-3xl ps-10 text-sm focus:bg-gray-100'
-                    placeholder='Search data...'
-                  />
-                </div>
-              </div>
+              <SearchPopup isOpen={openSearch} handleOpen={handleOpenSearch} />
+            </div>
+            <div>
+              <Tooltip content="Filter Data" className="bg-gray-300 text-gray-700 shadow-sm border">
+                <IconButton variant="text" color='indigo'>
+                  <BsSliders className='text-lg' />
+                </IconButton>
+              </Tooltip>
             </div>
             <Tooltip content="Display View"className="bg-gray-300 text-gray-700 shadow-sm border">
               <Menu placement='bottom-end'>
@@ -123,11 +120,11 @@ const List = (props) => {
                   <Button
                     variant='text'
                     color='indigo'
-                    className='flex gap-2 items-center !capitalize font-medium !px-3 !outline-none'>
+                    className='flex gap-1 items-center !capitalize font-medium !px-3 !outline-none'>
                     {
                       (display == "List")
-                        ? <CiBoxList />
-                      :  <CiGrid41 />
+                        ? <CiBoxList className='text-lg' />
+                        : <CiGrid41 className='text-lg' />
                     }
                     <span>{display}</span>
                   </Button>
