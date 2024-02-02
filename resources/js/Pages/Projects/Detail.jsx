@@ -33,7 +33,7 @@ const Detail = (props) => {
 
 Detail.layout = page => (
   <Authenticated
-    user={page.props.auth}
+    user={page.props.auth.user}
     header={breadcrumb}
     activeMenu={'project'}
   >
