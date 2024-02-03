@@ -53,8 +53,10 @@ const List = (props) => {
   const [softFilter, setSoftFilter] = useState('recent');
   const [display, setDisplay] = useState("List");
   const [openSearch, setOpenSearch] = useState(false);
+  const [querySearch, setQuerySearch] = useState("")
 
   const handleOpenSearch = () => setOpenSearch(!openSearch);
+  const searchValue = (data) => setQuerySearch(data);
 
   return (
     <section>
@@ -71,85 +73,91 @@ const List = (props) => {
         </ul>
       </Alert>
       <div className='relative'>
-        <div className="flex gap-4 flex-wrap py-3">
-          <div className="flex gap-2 flex-wrap flex-grow border-r border-r-black/10">
-            <Button
-              variant='outlined'
-              color='indigo'
-              className={`!capitalize ${isActiveBtn((softFilter == 'recent'))}`}
-              onClick={() => setSoftFilter('recent')}
-            >
-              Recent
-            </Button>
-            <Button
-              variant='outlined'
-              color='indigo'
-              className={`!capitalize ${isActiveBtn((softFilter == 'oldest'))}`}
-              onClick={() => setSoftFilter('oldest')}
-            >
-              Oldest
-            </Button>
-            <Button
-              variant='outlined'
-              color='indigo'
-              className={`!capitalize ${isActiveBtn((softFilter == 'mypost'))}`}
-              onClick={() => setSoftFilter('mypost')}
-            >
-              My Post
-            </Button>
-          </div>
-          <div className='flex'>
-            <div>
-              <Tooltip content="Search Content" className="bg-gray-300 text-gray-700 shadow-sm border">
-                <IconButton variant="text" color='indigo' onClick={() => setOpenSearch(!openSearch)}>
-                  <CiSearch className='text-lg' />
-                </IconButton>
-              </Tooltip>
-              <SearchPopup isOpen={openSearch} handleOpen={handleOpenSearch} />
+        <div className={`transition-all ${(openSearch) ? 'opacity-0 z-0 scale-95 invisible' : 'scale-100 opacity-100 z-10 visible'}`}>
+          <div className="flex gap-4 flex-wrap py-3">
+            <div className="flex gap-2 flex-wrap flex-grow border-r border-r-black/10">
+              <Button
+                variant='outlined'
+                color='indigo'
+                className={`!capitalize ${isActiveBtn((softFilter == 'recent'))}`}
+                onClick={() => setSoftFilter('recent')}
+              >
+                Recent
+              </Button>
+              <Button
+                variant='outlined'
+                color='indigo'
+                className={`!capitalize ${isActiveBtn((softFilter == 'oldest'))}`}
+                onClick={() => setSoftFilter('oldest')}
+              >
+                Oldest
+              </Button>
+              <Button
+                variant='outlined'
+                color='indigo'
+                className={`!capitalize ${isActiveBtn((softFilter == 'mypost'))}`}
+                onClick={() => setSoftFilter('mypost')}
+              >
+                My Post
+              </Button>
             </div>
-            <div>
-              <Tooltip content="Filter Data" className="bg-gray-300 text-gray-700 shadow-sm border">
-                <IconButton variant="text" color='indigo'>
-                  <BsSliders className='text-lg' />
-                </IconButton>
+            <div className='flex'>
+              <div>
+                <Tooltip content="Search Content" className="bg-gray-300 text-gray-700 shadow-sm border">
+                  <IconButton variant="text" color='indigo' onClick={() => setOpenSearch(!openSearch)}>
+                    <CiSearch className='text-lg' />
+                  </IconButton>
+                </Tooltip>
+              </div>
+              <div>
+                <Tooltip content="Filter Data" className="bg-gray-300 text-gray-700 shadow-sm border">
+                  <IconButton variant="text" color='indigo'>
+                    <BsSliders className='text-lg' />
+                  </IconButton>
+                </Tooltip>
+              </div>
+              <Tooltip content="Display View"className="bg-gray-300 text-gray-700 shadow-sm border">
+                <Menu placement='bottom-end'>
+                  <MenuHandler>
+                    <Button
+                      variant='text'
+                      color='indigo'
+                      className='flex gap-1 items-center !capitalize font-medium !px-3 !outline-none'>
+                      {
+                        (display == "List")
+                          ? <CiBoxList className='text-lg' />
+                          : <CiGrid41 className='text-lg' />
+                      }
+                      <span>{display}</span>
+                    </Button>
+                  </MenuHandler>
+                  <MenuList>
+                    <MenuItem
+                      className={`flex gap-2 items-center ${(display == "List" ? "!bg-indigo-50 !text-indigo-300" : "")}`}
+                      onClick={() => setDisplay('List')}
+                    >
+                      <CiBoxList />
+                      <span>List</span>
+                    </MenuItem>
+                    <MenuItem
+                      className={`flex gap-2 items-center ${(display == "Grid" ? "!bg-indigo-50 !text-indigo-300" : "")}`}
+                      onClick={() => setDisplay('Grid')}
+                    >
+                      <CiGrid41 />
+                      <span>Grid</span>
+                    </MenuItem>
+                  </MenuList>
+                </Menu>
               </Tooltip>
             </div>
-            <Tooltip content="Display View"className="bg-gray-300 text-gray-700 shadow-sm border">
-              <Menu placement='bottom-end'>
-                <MenuHandler>
-                  <Button
-                    variant='text'
-                    color='indigo'
-                    className='flex gap-1 items-center !capitalize font-medium !px-3 !outline-none'>
-                    {
-                      (display == "List")
-                        ? <CiBoxList className='text-lg' />
-                        : <CiGrid41 className='text-lg' />
-                    }
-                    <span>{display}</span>
-                  </Button>
-                </MenuHandler>
-                <MenuList>
-                  <MenuItem
-                    className={`flex gap-2 items-center ${(display == "List" ? "!bg-indigo-50 !text-indigo-300" : "")}`}
-                    onClick={() => setDisplay('List')}
-                  >
-                    <CiBoxList />
-                    <span>List</span>
-                  </MenuItem>
-                  <MenuItem
-                    className={`flex gap-2 items-center ${(display == "Grid" ? "!bg-indigo-50 !text-indigo-300" : "")}`}
-                    onClick={() => setDisplay('Grid')}
-                  >
-                    <CiGrid41 />
-                    <span>Grid</span>
-                  </MenuItem>
-                </MenuList>
-              </Menu>
-            </Tooltip>
           </div>
         </div>
-        {/* Filter & Search */}
+        <SearchPopup
+          isOpen={openSearch}
+          handleOpen={handleOpenSearch}
+          searchSubmitVal={searchValue}
+          defaultVal={querySearch}
+        />
       </div>
     </section>
   );
