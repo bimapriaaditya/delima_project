@@ -1,28 +1,36 @@
 import React, {useEffect, useState} from 'react';
-import { Head } from '@inertiajs/react';
+import { Head, Link } from '@inertiajs/react';
 import {
+  IconButton,
   Button,
   Alert,
   Typography,
-  IconButton,
   Menu,
   MenuHandler,
   MenuList,
   MenuItem,
-  Tooltip
+  Tooltip,
+  Card,
+  CardBody,
+  Chip
 } from '@material-tailwind/react';
 import {
   CiCircleInfo,
   CiSearch,
   CiBoxList,
-  CiGrid41
+  CiGrid41,
+  CiEdit,
+  CiTrash
 } from 'react-icons/ci';
+import { BsEye } from "react-icons/bs";
 import { BsSliders } from "react-icons/bs";
 import SearchPopup from '@/Components/Forms/SearchPopup';
 
 // Layouts
 import Authenticated from '@/Layouts/AuthenticatedLayout';
 import ProjectLayout from '@/Layouts/ProjectLayout';
+
+const tooltipsStyle = "bg-gray-300 text-gray-700 shadow-sm border";
 
 const breadcrumb = [
   { name: "Spongebob Squarepants" },
@@ -49,14 +57,14 @@ const ActionHeader = () => {
 
 
 const List = (props) => {
-  const { children, data, active_nav } = props;
-  const [softFilter, setSoftFilter] = useState('recent');
-  const [display, setDisplay] = useState("List");
-  const [openSearch, setOpenSearch] = useState(false);
-  const [querySearch, setQuerySearch] = useState("")
+  const { data, active_nav } = props;
+  const [softFilter, setSoftFilter] = useState('recent');         // Soft filter yg menjadi filter dari tabs button diatas
+  const [display, setDisplay] = useState("List");                 // Ubah tampilan view dari list -> grid
+  const [openSearch, setOpenSearch] = useState(false);            // status open/close search bar
+  const [querySearch, setQuerySearch] = useState("")              // status value dari search bar
 
-  const handleOpenSearch = () => setOpenSearch(!openSearch);
-  const searchValue = (data) => setQuerySearch(data);
+  const handleOpenSearch = () => setOpenSearch(!openSearch);      // Handle open search bar
+  const searchValue = (data) => setQuerySearch(data);             // Change search bar value
 
   return (
     <section>
@@ -72,7 +80,7 @@ const List = (props) => {
           <li className='px-2 py-1'>Pagination or <span className='font-semibold'>Infinite scroll</span>?</li>
         </ul>
       </Alert>
-      <div className='relative'>
+      <div className='relative mb-4'>
         <div className={`transition-all ${(openSearch) ? 'opacity-0 z-0 scale-95 invisible' : 'scale-100 opacity-100 z-10 visible'}`}>
           <div className="flex gap-4 flex-wrap py-3">
             <div className="flex gap-2 flex-wrap flex-grow border-r border-r-black/10">
@@ -103,20 +111,20 @@ const List = (props) => {
             </div>
             <div className='flex'>
               <div>
-                <Tooltip content="Search Content" className="bg-gray-300 text-gray-700 shadow-sm border">
+                <Tooltip content="Search Content" className={tooltipsStyle}>
                   <IconButton variant="text" color='indigo' onClick={() => setOpenSearch(!openSearch)}>
                     <CiSearch className='text-lg' />
                   </IconButton>
                 </Tooltip>
               </div>
               <div>
-                <Tooltip content="Filter Data" className="bg-gray-300 text-gray-700 shadow-sm border">
+                <Tooltip content="Filter Data" className={tooltipsStyle}>
                   <IconButton variant="text" color='indigo'>
                     <BsSliders className='text-lg' />
                   </IconButton>
                 </Tooltip>
               </div>
-              <Tooltip content="Display View"className="bg-gray-300 text-gray-700 shadow-sm border">
+              <Tooltip content="Display View"className={tooltipsStyle}>
                 <Menu placement='bottom-end'>
                   <MenuHandler>
                     <Button
@@ -159,6 +167,81 @@ const List = (props) => {
           defaultVal={querySearch}
         />
       </div>
+      <Card>
+        <CardBody className='p-3'>
+          <div className='table table-auto w-full'>
+            <div className="table-header-group bg-white/50 backdrop-blur-md sticky top-0 z-10">
+              <div className="table-row">
+                <div className='table-cell p-3 border-b w-44'>
+                  <span className='font-semibold'>Thumbnail</span>
+                </div>
+                <div className='table-cell p-3 border-b'>
+                  <span className='font-semibold'>Post</span>
+                </div>
+                <div className='table-cell p-3 border-b'>
+                  <span className='font-semibold whitespace-nowrap'>Created By</span>
+                </div>
+                <div className='table-cell p-3 border-b'>
+                  <span className='font-semibold whitespace-nowrap'>Action</span>
+                </div>
+              </div>
+            </div>
+            <ul className="table-row-group">
+              <li className="table-row rounded transition-all hover:bg-gray-900/5 overflow-hidden">
+                <div className="table-cell p-3">
+                  <img
+                    src="https://images.pexels.com/photos/11107635/pexels-photo-11107635.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                    alt="image"
+                    loading='lazy'
+                    className='w-full h-24 rounded-md object-cover'
+                  />
+                </div>
+                <div className="table-cell p-3 align-middle">
+                  <div className='mb-4'>
+                    <h5 className='font-semibold text-lg leading-tight line-clamp-1'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum, officiis pariatur suscipit laudantium reprehenderit veritatis aliquam.</h5>
+                    <p className='line-clamp-3 leading-tight'>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quae laborum sapiente at commodi quaerat optio cupiditate accusantium beatae. Modi unde alias, error adipisci praesentium eaque neque velit optio quas vero?</p>
+                  </div>
+                  <div className='flex gap-2 flex-wrap'>
+                    <Chip className='!capitalize' value="Liked : 24"  size='sm'color='indigo' variant="gradient"></Chip>
+                    <Chip className='!capitalize' value="Coomented : 3" size='sm' color='indigo' variant="outlined"></Chip>
+                  </div>
+                </div>
+                <div className="table-cell p-3 align-top">
+                  <div className='leading-none'>
+                    <h6 className='text-base font-medium'>John Doe</h6>
+                    <small className='whitespace-nowrap'>02/03/2023 12:41</small>
+                  </div>
+                </div>
+                <div className="table-cell p-3 align-top">
+                  <div className='flex gap-2'>
+                    <Tooltip content="Lihat Detail" className={tooltipsStyle}>
+                      <Link href={route('posts.show', [1, 3])}>
+                        <IconButton variant='outlined' color='indigo' size='sm'>
+                          <BsEye />
+                        </IconButton>
+                      </Link>
+                    </Tooltip>
+                    <Tooltip content="Edit Data" className={tooltipsStyle}>
+                      <Link href={route('posts.show', [1, 3])}>
+                        <IconButton variant='outlined' color='teal' size='sm'>
+                          <CiEdit />
+                        </IconButton>
+                      </Link>
+                    </Tooltip>
+                    <Tooltip content="Hapus Data" className={tooltipsStyle}>
+                      <Link href={route('posts.show', [1, 3])}>
+                        <IconButton variant='outlined' color='red' size='sm'>
+                          <CiTrash />
+                        </IconButton>
+                      </Link>
+                    </Tooltip>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </CardBody>
+      </Card>
     </section>
   );
 }

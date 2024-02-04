@@ -11,7 +11,7 @@ const Card = (props) => {
 
   return (
     <>
-      <div className="bg-white sm:rounded-lg rounded shadow">
+      <div className="bg-white rounded-lg shadow">
         {children}
       </div>
     </>
