@@ -22,9 +22,9 @@ import {
   CiEdit,
   CiTrash
 } from 'react-icons/ci';
-import { BsEye } from "react-icons/bs";
-import { BsSliders } from "react-icons/bs";
+import { BsEye, BsSliders } from "react-icons/bs";
 import SearchPopup from '@/Components/Forms/SearchPopup';
+import TableGridCard from '@/Components/Cards/Variant/TableGridCard';
 
 // Layouts
 import Authenticated from '@/Layouts/AuthenticatedLayout';
@@ -32,11 +32,15 @@ import ProjectLayout from '@/Layouts/ProjectLayout';
 
 const tooltipsStyle = "bg-gray-300 text-gray-700 shadow-sm border";
 
-const breadcrumb = [
-  { name: "Spongebob Squarepants" },
-  { name: "Projects", href: route('projects.index') },
-  { name: "Posts", href: route('posts.index', [1]) }
-]
+const setBreadCrumb = (project) => {
+  return(
+    [
+      { name: project.name },
+      { name: "Projects", href: route('projects.index') },
+      { name: "Posts", href: route('posts.index', [project.id]) }
+    ]
+  )
+}
 
 const isActiveBtn = (status) => {
   if (status) return "bg-indigo-500 text-indigo-50";
@@ -55,16 +59,115 @@ const ActionHeader = () => {
   )
 }
 
+const RenderBadgeOther = (props) => {
+  const {liked, commented} = props;
+  return (
+    <div className='flex gap-2 flex-wrap'>
+      <Chip className='!capitalize' value={`Liked : ${liked}`}  size='sm' color='indigo' variant="gradient"></Chip>
+      <Chip className='!capitalize' value={`Coomented : ${commented}`} size='sm' color='indigo' variant="outlined"></Chip>
+    </div>
+  )
+}
+
+const RenderCreateBy = (props) => {
+  const { created_by, created_at } = props;
+  return(
+    <div className='leading-none mb-4'>
+      <h6 className='text-base font-medium'>{ created_by }</h6>
+      <small className='whitespace-nowrap'>{ created_at }</small>
+    </div>
+  )
+}
+
+const RenderActionBtn = (id) => {
+  return (
+    <div className='flex gap-2'>
+      <Tooltip content="Lihat Detail" className={tooltipsStyle}>
+        <Link href={route('posts.show', [1, id])}>
+          <IconButton variant='outlined' color='indigo' size='sm'>
+            <BsEye />
+          </IconButton>
+        </Link>
+      </Tooltip>
+      <Tooltip content="Edit Data" className={tooltipsStyle}>
+        <Link href={route('posts.show', [1, id])}>
+          <IconButton variant='outlined' color='teal' size='sm'>
+            <CiEdit />
+          </IconButton>
+        </Link>
+      </Tooltip>
+      <Tooltip content="Hapus Data" className={tooltipsStyle}>
+        <Link href={route('posts.show', [1, id])}>
+          <IconButton variant='outlined' color='red' size='sm'>
+            <CiTrash />
+          </IconButton>
+        </Link>
+      </Tooltip>
+    </div>
+  )
+}
+
+const mapTable = (readData) => {
+  const data = readData.map((data, index) => (
+    [
+      {
+        type: "thumbnail",
+        src: data.thumbnail
+      },
+      {
+        type: "caption",
+        title: data.name,
+        caption: data.description,
+        children: [
+          <RenderBadgeOther
+            liked={data.liked}
+            commented={data.commented}
+          />
+        ]
+      },
+      {
+        type: "component",
+        children: [
+          <RenderCreateBy
+            created_by={data.created_by.name}
+            created_at={data.created_at}
+          />
+        ]
+      },
+      {
+        type: "component",
+        children: [
+          <RenderActionBtn id={data.id} />
+        ]
+      },
+    ]
+  ));
+
+  return ({
+    "head": [
+      { title: "Thumbnail", className: 'w-44' },
+      { title: "Post" },
+      { title: "Created By", className: 'whitespace-nowrap' },
+      { title: "Actions", className: 'whitespace-nowrap' },
+    ],
+    "datas": data
+  })
+}
 
 const List = (props) => {
-  const { data, active_nav } = props;
+  const {
+    projectPosts,
+    project,
+    active_nav,
+    auth
+  } = props;
   const [softFilter, setSoftFilter] = useState('recent');         // Soft filter yg menjadi filter dari tabs button diatas
   const [display, setDisplay] = useState("List");                 // Ubah tampilan view dari list -> grid
   const [openSearch, setOpenSearch] = useState(false);            // status open/close search bar
   const [querySearch, setQuerySearch] = useState("")              // status value dari search bar
 
   const handleOpenSearch = () => setOpenSearch(!openSearch);      // Handle open search bar
-  const searchValue = (data) => setQuerySearch(data);             // Change search bar value
+  const searchValue = () => setQuerySearch("");                   // Change search bar value
 
   return (
     <section>
@@ -169,77 +272,7 @@ const List = (props) => {
       </div>
       <Card>
         <CardBody className='p-3'>
-          <div className='table table-auto w-full'>
-            <div className="table-header-group bg-white/50 backdrop-blur-md sticky top-0 z-10">
-              <div className="table-row">
-                <div className='table-cell p-3 border-b w-44'>
-                  <span className='font-semibold'>Thumbnail</span>
-                </div>
-                <div className='table-cell p-3 border-b'>
-                  <span className='font-semibold'>Post</span>
-                </div>
-                <div className='table-cell p-3 border-b'>
-                  <span className='font-semibold whitespace-nowrap'>Created By</span>
-                </div>
-                <div className='table-cell p-3 border-b'>
-                  <span className='font-semibold whitespace-nowrap'>Action</span>
-                </div>
-              </div>
-            </div>
-            <ul className="table-row-group">
-              <li className="table-row rounded transition-all hover:bg-gray-900/5 overflow-hidden">
-                <div className="table-cell p-3">
-                  <img
-                    src="https://images.pexels.com/photos/11107635/pexels-photo-11107635.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                    alt="image"
-                    loading='lazy'
-                    className='w-full h-24 rounded-md object-cover'
-                  />
-                </div>
-                <div className="table-cell p-3 align-middle">
-                  <div className='mb-4'>
-                    <h5 className='font-semibold text-lg leading-tight line-clamp-1'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum, officiis pariatur suscipit laudantium reprehenderit veritatis aliquam.</h5>
-                    <p className='line-clamp-3 leading-tight'>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quae laborum sapiente at commodi quaerat optio cupiditate accusantium beatae. Modi unde alias, error adipisci praesentium eaque neque velit optio quas vero?</p>
-                  </div>
-                  <div className='flex gap-2 flex-wrap'>
-                    <Chip className='!capitalize' value="Liked : 24"  size='sm'color='indigo' variant="gradient"></Chip>
-                    <Chip className='!capitalize' value="Coomented : 3" size='sm' color='indigo' variant="outlined"></Chip>
-                  </div>
-                </div>
-                <div className="table-cell p-3 align-top">
-                  <div className='leading-none'>
-                    <h6 className='text-base font-medium'>John Doe</h6>
-                    <small className='whitespace-nowrap'>02/03/2023 12:41</small>
-                  </div>
-                </div>
-                <div className="table-cell p-3 align-top">
-                  <div className='flex gap-2'>
-                    <Tooltip content="Lihat Detail" className={tooltipsStyle}>
-                      <Link href={route('posts.show', [1, 3])}>
-                        <IconButton variant='outlined' color='indigo' size='sm'>
-                          <BsEye />
-                        </IconButton>
-                      </Link>
-                    </Tooltip>
-                    <Tooltip content="Edit Data" className={tooltipsStyle}>
-                      <Link href={route('posts.show', [1, 3])}>
-                        <IconButton variant='outlined' color='teal' size='sm'>
-                          <CiEdit />
-                        </IconButton>
-                      </Link>
-                    </Tooltip>
-                    <Tooltip content="Hapus Data" className={tooltipsStyle}>
-                      <Link href={route('posts.show', [1, 3])}>
-                        <IconButton variant='outlined' color='red' size='sm'>
-                          <CiTrash />
-                        </IconButton>
-                      </Link>
-                    </Tooltip>
-                  </div>
-                </div>
-              </li>
-            </ul>
-          </div>
+          <TableGridCard data={mapTable(projectPosts)} />
         </CardBody>
       </Card>
     </section>
@@ -249,7 +282,7 @@ const List = (props) => {
 List.layout = page => (
   <Authenticated
     user={page.props.auth.user}
-    header={breadcrumb}
+    header={setBreadCrumb(page.props.project)}
     BreadAction={ActionHeader}
     activeMenu={'project'}
   >
