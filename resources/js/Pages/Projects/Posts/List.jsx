@@ -72,7 +72,7 @@ const RenderBadgeOther = (props) => {
 const RenderCreateBy = (props) => {
   const { created_by, created_at } = props;
   return(
-    <div className='leading-none mb-4'>
+    <div className='leading-none'>
       <h6 className='text-base font-medium'>{ created_by }</h6>
       <small className='whitespace-nowrap'>{ created_at }</small>
     </div>
@@ -171,18 +171,6 @@ const List = (props) => {
 
   return (
     <section>
-      <div className='mb-4'>
-        <h3 className='text-3xl font-semibold'>Post</h3>
-        <p>Menampilkan daftar postingan yang dibuat pada project group ini</p>
-      </div>
-      <Alert icon={<CiCircleInfo className='text-2xl' />} color='indigo' variant='outlined'>
-        <Typography className='font-medium'>Daftar konten yang harus dimuat !</Typography>
-        <ul className='list-decimal ps-4'>
-          <li className='px-2 py-1'>Filter Tabs (Recent, oldest, yourPost) | Search | Display</li>
-          <li className='px-2 py-1'>Post (Title, caption, thumbnail, createdBy, createAt, liked, commented)</li>
-          <li className='px-2 py-1'>Pagination or <span className='font-semibold'>Infinite scroll</span>?</li>
-        </ul>
-      </Alert>
       <div className='relative mb-4'>
         <div className={`transition-all ${(openSearch) ? 'opacity-0 z-0 scale-95 invisible' : 'scale-100 opacity-100 z-10 visible'}`}>
           <div className="flex gap-4 flex-wrap py-3">
@@ -270,11 +258,10 @@ const List = (props) => {
           defaultVal={querySearch}
         />
       </div>
-      <Card>
-        <CardBody className='p-3'>
-          <TableGridCard data={mapTable(projectPosts)} />
-        </CardBody>
-      </Card>
+      <TableGridCard
+        data={mapTable(projectPosts)}
+        isGrid={display == "Grid"}
+      />
     </section>
   );
 }

@@ -1,4 +1,9 @@
 import React from 'react';
+import { useMediaQuery } from "@uidotdev/usehooks";
+import {
+  Card,
+  CardBody,
+} from '@material-tailwind/react';
 
 const RenderComponent = (props) => {
   const { data } = props;
@@ -16,7 +21,14 @@ const RenderComponent = (props) => {
 }
 
 const RenderCell = (props) => {
-  const { data, index } = props;
+  const {
+    data,
+    index,
+    isSmallDevice,
+    isMediumDevice,
+    isLargeDevice,
+    isExtraLargeDevice
+  } = props;
 
   switch (data.type) {
     case "thumbnail": {
@@ -25,7 +37,7 @@ const RenderCell = (props) => {
           src={data.src}
           alt={`${data.name}_${index}`}
           loading='lazy'
-          className='w-full h-24 rounded-md object-cover'
+          className={`w-full rounded-md object-cover ${(isSmallDevice) ? 'h-64' : 'h-24'}`}
         />
       )
     }
@@ -54,88 +66,84 @@ const RenderCell = (props) => {
 }
 
 const TableGridCard = (props) => {
-  const { data } = props;
+  const { data, isGrid } = props;
+  const isSmallDevice = useMediaQuery(
+    "only screen and (max-width : 768px)"
+  );
+  const isMediumDevice = useMediaQuery(
+    "only screen and (min-width : 769px) and (max-width : 992px)"
+  );
+  const isLargeDevice = useMediaQuery(
+    "only screen and (min-width : 993px) and (max-width : 1200px)"
+  );
+  const isExtraLargeDevice = useMediaQuery(
+    "only screen and (min-width : 1201px)"
+  );
+
+  const loopCell = (item) => {
+    return(
+      item.map((cell, cell_index) => (
+        <div
+          className={`${(isSmallDevice || isGrid) ? 'block' : 'table-cell p-2'} align-top ${cell.className || ''}`} key={cell_index}
+        >
+          <RenderCell
+            data={cell}
+            index={cell_index}
+            isGrid={isGrid}
+            isSmallDevice={isSmallDevice || isGrid}
+            isMediumDevice={isMediumDevice}
+            isLargeDevice={isLargeDevice}
+            isExtraLargeDevice={isExtraLargeDevice}
+          />
+        </div>
+      ))
+    );
+}
+
 
   return (
-    <div className='table table-auto w-full'>
-      <div className="table-header-group bg-white/50 backdrop-blur-md sticky top-0 z-10">
-        <div className="table-row">
-          {
-            data.head.map((item, index) => (
-              <div className={`table-cell p-3 align-top border-b ${item.className || ''}`} key={index}>
-                <span className='font-semibold'>{item.title}</span>
-              </div>
-            ))
-          }
-        </div>
-      </div>
-      <ul className="table-row-group">
-        {
-          data.datas.map((item, index) => (
-            <li className="table-row rounded transition-all hover:bg-gray-900/5 overflow-hidden" key={index}>
+    <Card className={(isSmallDevice || isGrid) ? 'bg-transparent border-0 shadow-none' : ''}>
+      <CardBody className={(isSmallDevice || isGrid) ? 'p-0' : 'p-3'}>
+        <div className={(isSmallDevice || isGrid) ? '' : 'table table-auto w-full'}>
+          <div className={
+            (isSmallDevice || isGrid)
+              ? `hidden`
+              : `table-header-group bg-white/50 backdrop-blur-md sticky top-0 z-10`
+            }>
+            <div className="table-row">
               {
-                item.map((cell, cell_index) => (
-                  <div className={`table-cell p-3 align-top ${cell.className || ''}`} key={cell_index}>
-                    <RenderCell data={cell} index={index} />
+                data.head.map((item, index) => (
+                  <div className={`table-cell p-2 align-top border-b ${item.className || ''}`} key={index}>
+                    <span className='font-semibold'>{item.title}</span>
                   </div>
                 ))
               }
-            </li>
-          ))
-        }
-        {/* <li className="table-row rounded transition-all hover:bg-gray-900/5 overflow-hidden">
-          <div className="table-cell p-3">
-            <img
-              src="https://images.pexels.com/photos/11107635/pexels-photo-11107635.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-              alt="image"
-              loading='lazy'
-              className='w-full h-24 rounded-md object-cover'
-            />
-          </div>
-          <div className="table-cell p-3 align-middle">
-            <div className='leading-none mb-4'>
-              <h5 className='font-semibold text-lg leading-tight line-clamp-1'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum, officiis pariatur suscipit laudantium reprehenderit veritatis aliquam.</h5>
-              <p className='line-clamp-3 leading-tight'>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quae laborum sapiente at commodi quaerat optio cupiditate accusantium beatae. Modi unde alias, error adipisci praesentium eaque neque velit optio quas vero?</p>
-            </div>
-            <div className='flex gap-2 flex-wrap'>
-              <Chip className='!capitalize' value="Liked : 24"  size='sm'color='indigo' variant="gradient"></Chip>
-              <Chip className='!capitalize' value="Coomented : 3" size='sm' color='indigo' variant="outlined"></Chip>
             </div>
           </div>
-          <div className="table-cell p-3 align-top">
-            <div className='leading-none mb-4'>
-              <h6 className='text-base font-medium'>John Doe</h6>
-              <small className='whitespace-nowrap'>02/03/2023 12:41</small>
-            </div>
-          </div>
-          <div className="table-cell p-3 align-top">
-            <div className='flex gap-2'>
-              <Tooltip content="Lihat Detail" className={tooltipsStyle}>
-                <Link href={route('posts.show', [1, 3])}>
-                  <IconButton variant='outlined' color='indigo' size='sm'>
-                    <BsEye />
-                  </IconButton>
-                </Link>
-              </Tooltip>
-              <Tooltip content="Edit Data" className={tooltipsStyle}>
-                <Link href={route('posts.show', [1, 3])}>
-                  <IconButton variant='outlined' color='teal' size='sm'>
-                    <CiEdit />
-                  </IconButton>
-                </Link>
-              </Tooltip>
-              <Tooltip content="Hapus Data" className={tooltipsStyle}>
-                <Link href={route('posts.show', [1, 2])}>
-                  <IconButton variant='outlined' color='red' size='sm'>
-                    <CiTrash />
-                  </IconButton>
-                </Link>
-              </Tooltip>
-            </div>
-          </div>
-        </li> */}
-      </ul>
-    </div>
+          <ul className={(isSmallDevice || isGrid) ? 'grid md:grid-cols-2 xl:grid-cols-3 gap-4' : 'table-row-group'}>
+            {
+              data.datas.map((item, index) => (
+                <li
+                  className={`rounded transition-all overflow-hidden ${(isSmallDevice || isGrid) ? 'flex flex-col gap-3' : 'table-row hover:bg-gray-900/5'}`}
+                  key={index}
+                >
+                  {
+                    (isMediumDevice || isGrid)
+                    ?
+                      <Card>
+                        <CardBody className="p-3 flex flex-col gap-3">
+                          { loopCell(item) }
+                        </CardBody>
+                      </Card>
+                    : loopCell(item)
+                  }
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </CardBody>
+    </Card>
   );
 }
 

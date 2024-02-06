@@ -10,14 +10,25 @@ import {
 import { Link } from '@inertiajs/react';
 
 const Sidenav = (props) => {
-  const { data, title } = props;
+  const {
+    data,
+    title,
+    isSmallDevice,
+    isMediumDevice,
+    isLargeDevice,
+    isExtraLargeDevice
+  } = props;
   return (
     <nav className='border-r pe-6'>
-      <div className="p-3 border-b">
-        <Typography variant="h5" color="blue-gray">
-          <p className='flex-grow'>{ title }</p>
-        </Typography>
-      </div>
+      {
+        (isSmallDevice || isMediumDevice)
+        ? <></>
+        : <div className="p-3 border-b">
+            <Typography variant="h5" color="blue-gray">
+              <p className='flex-grow'>{ title }</p>
+            </Typography>
+          </div>
+      }
       <List className='px-0'>
         {
           data?.map((item, index) => (

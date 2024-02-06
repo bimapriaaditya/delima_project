@@ -1,9 +1,22 @@
 import React from 'react';
 import Sidenav from '@/Components/Navigations/Sidenav';
 import { CiUser, CiShoppingTag } from "react-icons/ci";
+import { useMediaQuery } from "@uidotdev/usehooks";
 
 const ProjectLayout = (props) => {
   const { children, data, active_nav } = props;
+  const isSmallDevice = useMediaQuery(
+    "only screen and (max-width : 768px)"
+  );
+  const isMediumDevice = useMediaQuery(
+    "only screen and (min-width : 769px) and (max-width : 992px)"
+  );
+  const isLargeDevice = useMediaQuery(
+    "only screen and (min-width : 993px) and (max-width : 1200px)"
+  );
+  const isExtraLargeDevice = useMediaQuery(
+    "only screen and (min-width : 1201px)"
+  );
 
   const sidemenu = [
     {
@@ -50,8 +63,20 @@ const ProjectLayout = (props) => {
 
   return (
     <section className="spacer">
-      <div className="flex gap-8">
-        <Sidenav title="Menus" data={sidemenu} />
+      <div className={
+        (isSmallDevice || isMediumDevice)
+        ? "block "
+        : "flex "
+        + "xl:gap-8 lg:gap-6 gap-4"
+      }>
+        <Sidenav
+          title="Menus"
+          data={sidemenu}
+          isSmallDevice={isSmallDevice}
+          isMediumDevice={isMediumDevice}
+          isLargeDevice={isLargeDevice}
+          isExtraLargeDevice={isExtraLargeDevice}
+        />
         <div className='flex-grow'>
           { children }
         </div>
