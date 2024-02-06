@@ -44,7 +44,7 @@ List.layout = page => (
   <Authenticated
     user={page.props.auth.user}
     header={breadcrumb}
-    BreadAction={ActionHeader}
+    BreadAction={<ActionHeader />}
     activeMenu={'project'}
   >
     <Head title='Post | Spongebob Squarepants' />
