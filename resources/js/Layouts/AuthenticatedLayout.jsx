@@ -142,7 +142,7 @@ const Authenticated = ({ user, header, children, BreadAction, activeMenu }) => {
                 </ul>
                 <div>
                   {
-                    BreadAction && <BreadAction />
+                    BreadAction
                   }
                 </div>
               </div>

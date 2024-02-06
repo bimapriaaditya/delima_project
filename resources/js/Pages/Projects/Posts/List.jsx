@@ -25,10 +25,12 @@ import {
 import { BsEye, BsSliders } from "react-icons/bs";
 import SearchPopup from '@/Components/Forms/SearchPopup';
 import TableGridCard from '@/Components/Cards/Variant/TableGridCard';
+// import ModalCreate from './ModalCreate';
 
 // Layouts
 import Authenticated from '@/Layouts/AuthenticatedLayout';
 import ProjectLayout from '@/Layouts/ProjectLayout';
+import ModalCreate from './ModalCreate';
 
 const tooltipsStyle = "bg-gray-300 text-gray-700 shadow-sm border";
 
@@ -46,7 +48,8 @@ const isActiveBtn = (status) => {
   if (status) return "bg-indigo-500 text-indigo-50";
 }
 
-const ActionHeader = () => {
+const ActionHeader = (props) => {
+  const { data } = props;
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(!open);
 
@@ -55,6 +58,7 @@ const ActionHeader = () => {
       <div className='flex gap-3 items-center'>
         <Button onClick={handleOpen} variant='gradient' color='indigo'>Create new Post +</Button>
       </div>
+      <ModalCreate isOpen={open} handleOpen={handleOpen} data={data} />
     </>
   )
 }
@@ -270,7 +274,7 @@ List.layout = page => (
   <Authenticated
     user={page.props.auth.user}
     header={setBreadCrumb(page.props.project)}
-    BreadAction={ActionHeader}
+    BreadAction={<ActionHeader data={page.props.project} />}
     activeMenu={'project'}
   >
     <Head title='Post | Spongebob Squarepants' />

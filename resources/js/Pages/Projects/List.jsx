@@ -87,7 +87,7 @@ const List = ({ auth, data }) => {
 List.layout = page => (
   <AuthenticatedLayout
     user={page.props.auth.user}
-    BreadAction={ActionHeader}
+    BreadAction={<ActionHeader />}
     header={breadcrumb}
     activeMenu={'project'}
   >
